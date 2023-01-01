@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fading</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .imageBox {
+            position: relative;
+            display: block;
+        }
+
+        .imageBox img {
+            position: absolute;
+            left: 0;
+        }
+
+        #img2,
+        #img3,
+        #img4,
+        #img5 {
+            opacity: 0;
+        }
+
+        .buttons {
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="buttons">
+        <!-- <button class="btn1" onclick="fadeOut()">Fade Out</button>
+        <button class="btn2" onclick="fadeIn()">Fade In</button> -->
+
+        <button class="start" onclick="start()">Start</button>
+        <button class="stop" onclick="stop()">Stop</button>
+    </div>
+
+    <div class="imageBox">
+        <img src="img1.png" alt="" id="img1">
+        <img src="img2.png" alt="" id="img2">
+        <img src="img3.png" alt="" id="img3">
+        <img src="img4.png" alt="" id="img4">
+        <img src="img5.png" alt="" id="img5">
+    </div>
+
+
+    <script>
+        var opacity = 0;
+        var intervalID = 0;
+        var starter = 0;
+        var imgAr = ['img1', 'img2', 'img3', 'img4', 'img5'];
+        var Out = -1, In = 0;
+
+        function start() {
+            fadeOut();
+            starter = setInterval(fadeOut, 3000);
+        }
+
+        function stop() {
+            clearInterval(starter);
+        }
+
+        function fadeOut() {
+            Out++;
+            In++;
+
+            if (Out == 5) { Out = 0; }
+
+            if (In == 5) { In = 0; }
+            intervalID = setInterval(hide, 10);
+
+        }
+
+        function hide() {
+            var imgO = document.getElementById(imgAr[Out]);
+            opacity = Number(window.getComputedStyle(imgO).getPropertyValue("opacity"));
+
+            var imgI = document.getElementById(imgAr[In]);
+
+
+            if (opacity > 0) {
+                opacity -= 0.01;
+                imgO.style.opacity = opacity;
+                imgI.style.opacity = 1 - opacity;
+            }
+
+            else {
+                clearInterval(intervalID);
+            }
+        }
+
+        function fadeIn() {
+            intervalID = setInterval(unhide, 20);
+        }
+
+        function unhide() {
+            var img = document.getElementById("img1");
+            opacity = Number(window.getComputedStyle(img).getPropertyValue("opacity"));
+
+            if (opacity < 1) {
+                opacity += 0.1;
+                img.style.opacity = opacity;
+            }
+
+            else {
+                clearInterval(intervalID);
+            }
+        }
+    </script>
+
+</body>
+
+</html>
